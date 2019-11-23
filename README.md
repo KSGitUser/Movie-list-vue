@@ -1,2 +1,2 @@
-# Movie-list-vue
+# movie-list-vue
 Project on vue
