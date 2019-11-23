@@ -24,7 +24,39 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "experimentalDecorators": true
+  },
+  "rules": {
+    "class-name": true,
+    "variable-name": [
+      true,
+      "check-format"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never",
+        "esSpecCompliant": true,
+      },
+    ],
+    "max-line-length": [
+      true,
+      120
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "void-escape",
+      "avoid-template",
+    ],
+    "no-unused-expression": true,
+    "no-duplicate-variable": true,
+    "no-unused-variable": true,
+    "curly": true,
+    "semicolon": true,
+    "triple-equals": true,
   },
   "include": [
     "src/**/*.ts",
