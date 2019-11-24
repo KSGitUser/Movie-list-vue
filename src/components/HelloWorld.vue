@@ -1,15 +1,14 @@
 <template>
   <div class="hello">
 
-    <v-container fluid>
-      <v-row>
+    <v-layout fluid column full-width>
 
-        <side-menu></side-menu>
 
-        <film-list :genre-id.sync="genreId"></film-list>
+      <side-menu fluid></side-menu>
 
-      </v-row>
-    </v-container>
+      <film-list :genre-id.sync="genreId" mt-0></film-list>
+
+    </v-layout>
 
     <!-- <v-card>
       <v-list>
