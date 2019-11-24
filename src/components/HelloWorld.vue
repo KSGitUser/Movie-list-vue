@@ -1,42 +1,61 @@
 <template>
   <div class="hello">
 
+    <v-container fluid>
+      <v-row>
+
+        <side-menu></side-menu>
+
+        <film-list :genre-id.sync="genreId"></film-list>
+
+      </v-row>
+    </v-container>
+
+    <!-- <v-card>
+      <v-list>
+        <v-subheader>ЖАНР</v-subheader>
+        <v-list-item-group v-model="item" color="primary">
+          <v-list-item v-for="(item, index) in genresList" :key=item.id class="title">
+            <v-list-item-content>
+              <v-list-item-title v-text="item.name" @click="">
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-card> -->
   </div>
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Prop,
-  Vue
-} from 'vue-property-decorator'
-import {
-  configApp
-} from '@/config/configApp'
+  import {
+    Component,
+    Prop,
+    Vue
+  } from 'vue-property-decorator';
+  import {
+    configApp
+  } from '@/config/configApp';
+  import SideMenuComponent from '@/components/SideMenuComponent.vue';
+  import FilmListComponent from '@/components/FilmListComponent.vue';
 
-  @Component
-export default class HelloWorld extends Vue {
+  @Component({
+    components: {
+      "side-menu": SideMenuComponent,
+      "film-list": FilmListComponent,
+    }
+  })
+  export default class HelloWorld extends Vue {
     @Prop() private msg!: string;
 
-    async created () {
-      const params = {
-        method: 'GET',
-        headers: {
-          'Authorization': configApp.apiKey4,
-          'Content-Type': 'application/json;charset=utf-8'
-        }
-      }
-      let listUrl = new URL(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=${configApp.apiKey3}&language=${configApp.language}`
-      )
-      const response = await fetch(
-        listUrl.toString(),
-        params
-      )
-      const data = await response.json()
-      console.log(data)
+    genresList = [];
+
+    async created() {
+      this.$store.dispatch('fetchConfiguration');
     }
-}
+
+    genreId = this.$store.getters.getGenreId;
+  }
 
 </script>
 
