@@ -34,24 +34,26 @@ export const actions = {
   },
 
   async fetchMovieDetails(
-    context: any, payload: { id: number, append: [] }
+    context: any, payload: { id: number | null, append: string[] } = { id: null, append: [] }
   ): Promise<void> {
-    try {
-      let append = '';
-      if (payload.append.length > 0) {
-        append = '&append_to_response=' + payload.append.join(',');
+    if (payload.id) {
+      try {
+        let append = '';
+        if (payload.append.length > 0) {
+          append = '&append_to_response=' + payload.append.join(',');
+        }
+        let listUrl = new URL(
+          `https://api.themoviedb.org/3/movie/${payload.id}?api_key=${configApp.apiKey3}&language=${configApp.language}${append}`
+        );
+        const response = await fetch(
+          listUrl.toString(),
+        );
+        const data = await response.json();
+        context.commit('setMovieDetails', data)
       }
-      let listUrl = new URL(
-        `https://api.themoviedb.org/3/movie/${payload.id}?api_key=${configApp.apiKey3}&language=${configApp.language}${append}`
-      );
-      const response = await fetch(
-        listUrl.toString(),
-      );
-      const data = await response.json();
-      context.commit('setFilmDetails', data)
-    }
-    catch (e) {
-      console.error("Error on getting film list, ", e);
+      catch (e) {
+        console.error("Error on getting film details, ", e);
+      }
     }
   }
 }

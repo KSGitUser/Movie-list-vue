@@ -53,7 +53,7 @@ export default class FilmListComponent extends Vue {
     setTimeout(() => this.showPagination = true, 1000);
   }
 
-  async getImageUrl(size: string = '/w185') {
+  async getImageUrl(size: string = 'w185') {
     await this.$store.dispatch("fetchConfiguration");
     this.imageUrl = this.$store.getters.getImageBaseUrl + size;
   }
@@ -99,5 +99,6 @@ export default class FilmListComponent extends Vue {
   getMovieDetails(id: number) {
     const payload = { id, append: ['videos', 'images'] }
     this.$store.dispatch('fetchMovieDetails', payload);
+    this.$router.push(`/movie/${id}`)
   }
 }
