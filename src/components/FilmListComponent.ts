@@ -7,12 +7,36 @@ import { IMovieList } from '@/types/IMovieList';
   name: "film-list",
 })
 export default class FilmListComponent extends Vue {
-  page: number = 1;
-  totalResults: number = 0;
-  totalPages: number = 0;
-  loading: boolean = false;
+  get page(): number {
+    return this.$store.state.filmListPage;
+  };
+  set page(value: number) {
+    this.$store.commit('setFilmListPage', value);
+  }
+  get totalResults(): number {
+    return this.$store.state.totalFilmListResults;
+  };
 
-  filmList: Array<IMovieList> = [];
+  get totalPages(): number {
+    return this.$store.state.totalFilmListPages;
+  };
+
+  get loading(): boolean {
+    return this.$store.state.isFilmListLoading;
+  };
+  set loading(value: boolean) {
+    this.$store.commit('setIsFilmListLoading', value);
+  }
+
+  showPagination: boolean = false;
+
+  boilerplate = false;
+  tile = false;
+  type = 'card-avatar';
+
+  get filmList(): IMovieList[] {
+    return this.$store.getters.getFilmList;
+  };
 
   get genreId() {
     return this.$store.getters.getGenreId;
@@ -21,45 +45,47 @@ export default class FilmListComponent extends Vue {
   imageUrl = '';
 
   async created() {
-    await this.getFilmList(this.genreId);
-    this.imageUrl = this.$store.getters.getImageBaseUrl + '/w185';
+    await this.getImageUrl();
+    this.getFilmList();
   }
 
-  imageSrc(item: any) {
+  mounted() {
+    setTimeout(() => this.showPagination = true, 1000);
+  }
 
+  async getImageUrl(size: string = '/w185') {
+    await this.$store.dispatch("fetchConfiguration");
+    this.imageUrl = this.$store.getters.getImageBaseUrl + size;
   }
 
   @Watch('genreId')
-  async onGenreIdChange(value: any) {
-    await this.getFilmList(value);
+  async onGenreIdChange(value: string) {
+    this.page = 1;
+    this.$store.commit('setGenreId', value);
+    this.getFilmList();
+  }
+
+  getFilmImageUrl(item: IMovieList) {
+    if (
+      item.hasOwnProperty('poster_path')
+      && item.poster_path
+      && this.imageUrl
+    ) {
+      return this.imageUrl + item.poster_path;
+    }
+    return '';
   }
 
   @Watch('page')
-  async onPageChange() {
-    await this.getFilmList(this.genreId);
+  async onPageChange(value: number) {
+    this.page = value;
+    this.getFilmList();
   }
 
+  async getFilmList() {
+    await this.$store.dispatch('fetchFilmList');
+    this.cutOverviewText();
 
-  async getFilmList(value: any) {
-    try {
-      this.loading = true;
-      let listUrl = new URL(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${configApp.apiKey3}&language=${configApp.language}&page=${this.page}&with_genres=${value}`
-      );
-      const response = await fetch(
-        listUrl.toString(),
-      );
-      const data = await response.json();
-      this.filmList = data.results;
-      this.cutOverviewText();
-      this.page = data.page;
-      this.totalResults = data.total_results;
-      this.totalPages = data.total_pages;
-      this.loading = false;
-    }
-    catch (e) {
-      console.error("Error on getting film list, ", e);
-    }
   }
 
   cutOverviewText() {
@@ -70,7 +96,8 @@ export default class FilmListComponent extends Vue {
     })
   }
 
-  async load(): Promise<void> {
-
+  getMovieDetails(id: number) {
+    const payload = { id, append: ['videos', 'images'] }
+    this.$store.dispatch('fetchMovieDetails', payload);
   }
 }

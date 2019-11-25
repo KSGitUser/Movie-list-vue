@@ -5,7 +5,7 @@
         <v-col :key="item.id" md=6 sm=12>
           <v-card class="film-list__film-card">
             <v-layout>
-              <v-img :src="imageUrl + item.poster_path" :lazy-src="imageUrl + item.poster_path" max-width="185" class="ma-2 film-list__image" :alt="item.title"></v-img>
+              <v-img :src="getFilmImageUrl(item)" :lazy-src="getFilmImageUrl(item)" max-width="185" class="ma-2 film-list__image" :alt="item.title"></v-img>
               <v-layout column mx-2>
                 <v-layout class="film-list__film-title-wrapper">
                   <v-layout ma-3 class="film-list__film-title">
@@ -29,7 +29,7 @@
 
                 <div column>
                   <v-divider></v-divider>
-                  <div class="ma-3">
+                  <div class="ma-3 film-list__info-button" @click="getMovieDetails(item.id)">
                     Подробнее...
                   </div>
                 </div>
@@ -38,11 +38,17 @@
           </v-card>
         </v-col>
       </template>
-      <div class="text-center film-list__pagination-container">
+      <div class="text-center film-list__pagination-container" v-if="showPagination">
         <v-pagination v-model="page" :length="totalPages" :total-visible="8"></v-pagination>
       </div>
     </v-row>
-    <v-skeleton-loader ref="skeleton" :boilerplate="boilerplate" :type="type" :tile="tile" class="mx-auto" v-else></v-skeleton-loader>
+    <v-row v-else>
+      <template v-for="n of 6">
+        <v-col :key="n" md=6 sm=12>
+          <v-skeleton-loader ref="skeleton" :boilerplate="boilerplate" :type="type" :tile="tile" class="mx-auto film-list__sceleton-loader"></v-skeleton-loader>
+        </v-col>
+      </template>
+    </v-row>
   </v-container>
 </template>
 
@@ -70,6 +76,15 @@
 
   .film-list__pagination-container {
     min-width: 100%;
+  }
+
+  .film-list__info-button {
+    cursor: pointer;
+  }
+
+  .film-list__sceleton-loader {
+    min-width: 470px;
+    min-height: 315px;
   }
 
 </style>

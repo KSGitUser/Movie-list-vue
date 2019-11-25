@@ -29,6 +29,5 @@ export default class SideMenuComponent extends Vue {
     const data = await response.json();
     this.genresList = data.genres;
     this.innerGenreId = data.genres[0].id;
-    console.log("this.genresList =>", this.genresList)
   }
 }
