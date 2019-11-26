@@ -6,7 +6,7 @@ import MovieDetails from '@/types/MovieDetails';
 export const state: IState = {
   genres: [],
   configuration: { images: {}, "change_keys": [] },
-  genreId: '',
+  genreId: null,
   movieDetails: new MovieDetails(),
   isFilmListLoading: false,
   filmListPage: 1,
@@ -18,7 +18,7 @@ export const state: IState = {
 export interface IState {
   genres: IGenre[],
   configuration: { images: {}, "change_keys": [] },
-  genreId: string,
+  genreId: number | null,
   movieDetails: IMovieDetails,
   isFilmListLoading: boolean,
   filmListPage: number,

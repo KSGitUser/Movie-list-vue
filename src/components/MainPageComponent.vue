@@ -4,7 +4,6 @@
       <keep-alive>
         <top-inputs fluid></top-inputs>
       </keep-alive>
-
       <film-list :genre-id.sync="genreId" mt-0></film-list>
     </v-layout>
   </div>

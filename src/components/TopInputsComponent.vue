@@ -5,7 +5,7 @@
     </v-col>
   </v-container>
 </template>
-<!-- <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script> -->
+
 <script lang="ts" src="./TopInputsComponent.ts"></script>
 
 

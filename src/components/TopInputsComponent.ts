@@ -3,31 +3,27 @@ import { configApp } from '@/config/configApp';
 import { Component, Watch } from 'vue-property-decorator'
 import { IGenre } from '@/types/IGenre';
 
-
 @Component({
   name: "side-menu"
 })
 export default class TopInputsComponent extends Vue {
-  genresList: IGenre[] = [];
-  innerGenreId: number = NaN;
-
-  created() {
-    this.load();
+  get genresList(): IGenre[] {
+    return this.$store.state.genres;
+  };
+  get innerGenreId(): number | null {
+    return this.$store.state.genreId;
   }
-
-  @Watch('innerGenreId')
-  onInnerGenreIdChange(value: any): void {
+  set innerGenreId(value: number | null) {
     this.$store.commit('setGenreId', value);
   }
+
+  async created() {
+    await this.load();
+  }
+
   async load() {
-    let listUrl = new URL(
-      `https://api.themoviedb.org/3/genre/movie/list?api_key=${configApp.apiKey3}&language=${configApp.language}`
-    );
-    const response = await fetch(
-      listUrl.toString(),
-    );
-    const data = await response.json();
-    this.genresList = data.genres;
-    this.innerGenreId = data.genres[0].id;
+    if (this.genresList.length === 0 || !this.innerGenreId) {
+      await this.$store.dispatch('fetchGenreList');
+    }
   }
 }

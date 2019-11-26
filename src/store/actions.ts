@@ -2,17 +2,40 @@ import { configApp } from '@/config/configApp';
 
 export const actions = {
   async fetchConfiguration(context: any): Promise<void> {
-    let listUrl = new URL(
-      `https://api.themoviedb.org/3/configuration?api_key=${configApp.apiKey3}`
-    );
-    const response = await fetch(
-      listUrl.toString(),
-    );
-    const data = await response.json();
-    context.commit('setConfiguration', data);
+    try {
+      let listUrl = new URL(
+        `https://api.themoviedb.org/3/configuration?api_key=${configApp.apiKey3}`
+      );
+      const response = await fetch(
+        listUrl.toString(),
+      );
+      const data = await response.json();
+      context.commit('setConfiguration', data);
+    } catch (e) {
+      console.error('Error on fetch config, ', e);
+    }
   },
 
-  async fetchFilmList(context: any, payload: string = context.state.genreId): Promise<void> {
+  async fetchGenreList(context: any): Promise<void> {
+    try {
+      let listUrl = new URL(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${configApp.apiKey3}&language=${configApp.language}`
+      );
+      const response = await fetch(
+        listUrl.toString(),
+      );
+      const data = await response.json();
+      context.commit('setGenreList', data.genres);
+      context.commit('setGenreId', data.genres[0].id);
+    } catch (e) {
+      console.error('Error on fetch genres, ', e);
+    }
+
+  },
+
+  async fetchFilmList(
+    context: any,
+    payload: string = context.state.genreId): Promise<void> {
     try {
       context.commit('setIsFilmListLoading', true);
       let listUrl = new URL(
@@ -34,7 +57,8 @@ export const actions = {
   },
 
   async fetchMovieDetails(
-    context: any, payload: { id: number | null, append: string[] } = { id: null, append: [] }
+    context: any,
+    payload: { id: number | null, append: string[] } = { id: null, append: [] }
   ): Promise<void> {
     if (payload.id) {
       try {

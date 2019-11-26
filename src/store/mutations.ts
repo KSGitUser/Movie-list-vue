@@ -1,13 +1,18 @@
 import { IState } from './state';
 import MovieDetails from '@/types/MovieDetails';
+import { IGenre } from '@/types/IGenre';
 
 export const mutations = {
   setConfiguration(state: IState, payload: any) {
     state.configuration = Object.assign(state.configuration, payload);
   },
 
-  setGenreId(state: IState, payload: string) {
+  setGenreId(state: IState, payload: number | null) {
     state.genreId = payload;
+  },
+
+  setGenreList(state: IState, payload: IGenre[]) {
+    state.genres = [...payload];
   },
 
   setMovieDetails(state: IState, payload: number) {
