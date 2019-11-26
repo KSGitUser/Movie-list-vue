@@ -1,33 +1,59 @@
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import { IMovieDetails, IResult } from '@/types/IMovieDetails';
+import { VScrollYTransition } from 'vuetify/lib';
 
-@Component({})
+@Component({
+  filters: {
+    formatCurrency(value: string | number) {
+      return value.toString().replace(/(?<=\d)(?=(\d{3})+(?!\d))/gm, ' ');
+    }
+  }
+})
 export default class FilmDetailsComponent extends Vue {
   imageUrl: string = '';
   loading: boolean = true;
+  videoHeight: number = 0;
+  videoWidth: number = 0;
+  screenWidth: number = 0;
+  screenHeight: number = 0;
 
   get movieDetails(): IMovieDetails {
     return this.$store.getters.getMovieDetails;
   }
 
-  set movieDetails(value) {
+  set movieDetails(value: IMovieDetails) {
     this.$store.commit('setMovieDetails', value);
   }
+
   async created() {
-    await this.getImageUrl();
-    await this.$store.dispatch('fetchMovieDetails', { id: this.$route.params.id, append: ['videos', 'images'] });
-    console.log(this.movieDetails);
+    await this.load();
+    this.getImageUrl();
+    this.prepareVideoPlayer();
     this.loading = false;
   }
 
-  async getImageUrl(size: string = 'w185') {
+  beforeDestroy() {
+    window.removeEventListener("resize", this.getMoviePlayerSize, true);
+  }
+
+  async load() {
     await this.$store.dispatch("fetchConfiguration");
+    await this.$store.dispatch('fetchMovieDetails', { id: this.$route.params.id, append: ['videos', 'images', 'actors'] });
+  }
+
+  prepareVideoPlayer() {
+    this.getMoviePlayerSize();
+    window.addEventListener("resize", this.getMoviePlayerSize, true);
+  }
+
+  getImageUrl(size: string = 'w185') {
     this.imageUrl = this.$store.getters.getImageBaseUrl + size;
   }
 
   getMovieUrl(): string | null {
     if (this.movieDetails.videos
+      && this.movieDetails.videos.results.length > 0
       && this.movieDetails.videos.results[0].site === 'YouTube'
       && this.movieDetails.videos.results[0].key) {
       return `https://www.youtube.com/embed/${this.movieDetails.videos.results[0].key}?start=1`;
@@ -35,7 +61,20 @@ export default class FilmDetailsComponent extends Vue {
     return null
   }
 
-
+  getMoviePlayerSize(): void {
+    this.screenWidth = document.documentElement.clientWidth;
+    this.screenHeight = document.documentElement.clientHeight;
+    if (this.movieDetails.videos
+      && this.movieDetails.videos.results.length > 0
+      && this.movieDetails.videos.results[0].size
+      && this.screenWidth > this.movieDetails.videos.results[0].size) {
+      this.videoWidth = this.movieDetails.videos.results[0].size;
+      this.videoHeight = this.videoWidth * 0.5625;
+    } else {
+      this.videoWidth = this.screenWidth * 0.9;
+      this.videoHeight = this.videoWidth * 0.5625;
+    }
+  }
 }
 
 

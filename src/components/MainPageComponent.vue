@@ -1,28 +1,12 @@
 <template>
   <div class="hello">
-
     <v-layout fluid column full-width>
-
-
-      <side-menu fluid></side-menu>
+      <keep-alive>
+        <top-inputs fluid></top-inputs>
+      </keep-alive>
 
       <film-list :genre-id.sync="genreId" mt-0></film-list>
-
     </v-layout>
-
-    <!-- <v-card>
-      <v-list>
-        <v-subheader>ЖАНР</v-subheader>
-        <v-list-item-group v-model="item" color="primary">
-          <v-list-item v-for="(item, index) in genresList" :key=item.id class="title">
-            <v-list-item-content>
-              <v-list-item-title v-text="item.name" @click="">
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-card> -->
   </div>
 </template>
 
@@ -35,30 +19,27 @@
   import {
     configApp
   } from '@/config/configApp';
-  import SideMenuComponent from '@/components/SideMenuComponent.vue';
+  import TopInputsComponent from '@/components/TopInputsComponent.vue';
   import FilmListComponent from '@/components/FilmListComponent.vue';
 
   @Component({
     components: {
-      "side-menu": SideMenuComponent,
+      "top-inputs": TopInputsComponent,
       "film-list": FilmListComponent,
     }
   })
-  export default class HelloWorld extends Vue {
-    @Prop() private msg!: string;
+  export default class MainPageComponent extends Vue {
 
     genresList = [];
 
     async created() {
       this.$store.dispatch('fetchConfiguration');
     }
-
     genreId = this.$store.getters.getGenreId;
   }
 
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   h3 {
     margin: 40px 0 0;

@@ -7,7 +7,7 @@ import { IGenre } from '@/types/IGenre';
 @Component({
   name: "side-menu"
 })
-export default class SideMenuComponent extends Vue {
+export default class TopInputsComponent extends Vue {
   genresList: IGenre[] = [];
   innerGenreId: number = NaN;
 
