@@ -10,6 +10,7 @@
 * Vuex
 * Vue-Route
 * TypeScript
+* Vuetify - библиотека UI 
 
 1. В пустую директорию копируем репозиторий: 
 
