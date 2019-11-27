@@ -1,8 +1,8 @@
 <template>
   <v-container fluid pb-0>
-    <v-col class="d-flex genre-input-wrapper" pb-0 cols="4" xl="12" lg="2">
+    <v-flex class="d-flex genre-input-wrapper col-md-6 col-xs-12 col-sm-6  col-lg-4 col-xl-4 mx-auto">
       <v-select v-model="innerGenreId" :items="genresList" item-text="name" item-value="id" label="Выберете жанр" outlined class="genre-input" :hide-details="true"></v-select>
-    </v-col>
+    </v-flex>
   </v-container>
 </template>
 

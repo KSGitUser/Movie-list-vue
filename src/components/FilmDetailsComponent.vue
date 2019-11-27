@@ -1,10 +1,10 @@
 <template>
   <v-container v-if="!loading">
     <v-row>
-      <v-col cols="auto">
+      <v-col cols="auto mx-auto">
         <v-img :src="imageUrl + movieDetails.poster_path" width="185px" class="film-details__poster"></v-img>
       </v-col>
-      <v-col cols="8">
+      <v-col class="col-sm-12 col-xs-12 col-12">
         <div class="film-details__title display-1" mb="3" v-if="movieDetails.title">
           {{ movieDetails.title }}
         </div>

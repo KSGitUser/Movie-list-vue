@@ -1,12 +1,10 @@
 <template>
-  <div class="hello">
+  <v-container class="hello">
     <v-layout fluid column full-width>
-      <keep-alive>
-        <top-inputs fluid></top-inputs>
-      </keep-alive>
+      <top-inputs fluid></top-inputs>
       <film-list :genre-id.sync="genreId" mt-0></film-list>
     </v-layout>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">

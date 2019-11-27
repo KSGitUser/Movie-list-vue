@@ -90,10 +90,16 @@ export default class FilmListComponent extends Vue {
 
   cutOverviewText() {
     this.filmList.forEach(item => {
-      if (item.overview.length > 200) {
-        item.overview = item.overview.substring(0, 200) + "..."
+      if (item.overview.length > 180) {
+        item.overview = item.overview.substring(0, 180) + "..."
       }
     })
+  }
+
+  get imageSize(): string {
+    const innerWidth = window.innerWidth;
+    let imgSize = 185
+    return imgSize < innerWidth / 3 ? imgSize + 'px' : innerWidth / 3 + 'px';
   }
 
   getMovieDetails(id: number) {
