@@ -1,24 +1,34 @@
 # movie-list-vue
 
-## Project setup
+Проет по отображению перечня фильмов с с использованием api сайта www.themoviedb.org
+
+
+### 1. В пустую дирректорию копируем репозитарий коммандой (команду выполняем в командной строке): 
+
+```
+git clone https://github.com/KSGitUser/movie-list-vue.git
+```
+
+### 2. Заходим в созданную директорию movie-list-vue. Выполняем команду: 
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Для запуска проекта выполняем команду:
+
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### После сборки - проект будет доступен по адресу указанному после сборки, например 
+
+```
+http://localhost:8080/
+```
+
+### Компиляция и сборка продукта для публикации
 ```
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

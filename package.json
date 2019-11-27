@@ -1,5 +1,7 @@
 {
   "name": "movie-list-vue",
+  "author": "KSGitUser",
+  "repository": "https://github.com/KSGitUser/movie-list-vue.git",
   "version": "0.1.0",
   "private": true,
   "scripts": {
