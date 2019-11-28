@@ -1,7 +1,6 @@
 import Vue from 'vue';
-import { configApp } from '@/config/configApp';
-import { Component, Watch } from 'vue-property-decorator'
-import { IGenre } from '@/types/IGenre';
+import { Component } from 'vue-property-decorator'
+import { IGenre } from '../types/IGenre';
 
 @Component({
   name: "side-menu"
@@ -17,11 +16,11 @@ export default class TopInputsComponent extends Vue {
     this.$store.commit('setGenreId', value);
   }
 
-  async created() {
+  async created(): Promise<void> {
     await this.load();
   }
 
-  async load() {
+  async load(): Promise<void> {
     if (this.genresList.length === 0 || !this.innerGenreId) {
       await this.$store.dispatch('fetchGenreList');
     }

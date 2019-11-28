@@ -1,13 +1,14 @@
 import { IState } from './state';
-import { IMovieList } from '@/types/IMovieList';
-import { IMovieDetails } from '@/types/IMovieDetails';
+import { IMovieList } from '../types/IMovieList';
+import IMovieDetails from './../types/MovieDetails';
+
 
 export const getters = {
-  getImageBaseUrl(state: any): string {
+  getImageBaseUrl(state: IState): string {
     return state.configuration.images.base_url;
   },
 
-  getGenreId(state: any): number {
+  getGenreId(state: IState): number | null {
     return state.genreId;
   },
 

@@ -1,8 +1,7 @@
-import Vue from 'vue'
+import Vue, { VNode } from 'vue'
 import VueRouter from 'vue-router'
-import MainPageComponent from '@/components/MainPageComponent.vue'
-import App from '@/App.vue'
-import FilmListComponent from '@/components/FilmListComponent.vue'
+import MainPageComponent from '../components/MainPageComponent.vue'
+import FilmListComponent from '../components/FilmDetailsComponent.vue'
 
 Vue.use(VueRouter)
 
@@ -20,12 +19,12 @@ const routes = [
   {
     path: '/movie/:id',
     name: 'movieDetails',
-    component: () => import('@/components/FilmDetailsComponent.vue')
+    component: (): Promise<any> => import('../components/FilmDetailsComponent.vue')
   },
   {
-    path: '*',
+    path: '/*',
     name: 'page404',
-    component: () => import('@/components/Page404.vue')
+    component: (): Promise<any> => import('../components/Page404.vue')
   }
 ]
 

@@ -1,22 +1,21 @@
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
-import { IMovieDetails, IResult } from '@/types/IMovieDetails';
-import { VScrollYTransition } from 'vuetify/lib';
+import { Component } from 'vue-property-decorator';
+import IMovieDetails from './../types/MovieDetails';
 
 @Component({
   filters: {
-    formatCurrency(value: string | number) {
+    formatCurrency(value: string | number): string {
       return value.toString().replace(/(?<=\d)(?=(\d{3})+(?!\d))/gm, ' ');
     }
   }
 })
 export default class FilmDetailsComponent extends Vue {
-  imageUrl: string = '';
-  loading: boolean = true;
-  videoHeight: number = 0;
-  videoWidth: number = 0;
-  screenWidth: number = 0;
-  screenHeight: number = 0;
+  imageUrl = '';
+  loading = true;
+  videoHeight = 0;
+  videoWidth = 0;
+  screenWidth = 0;
+  screenHeight = 0;
 
   get movieDetails(): IMovieDetails {
     return this.$store.getters.getMovieDetails;
@@ -26,28 +25,28 @@ export default class FilmDetailsComponent extends Vue {
     this.$store.commit('setMovieDetails', value);
   }
 
-  async created() {
+  async created(): Promise<void> {
     await this.load();
     this.getImageUrl();
     this.prepareVideoPlayer();
     this.loading = false;
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     window.removeEventListener("resize", this.getMoviePlayerSize, true);
   }
 
-  async load() {
+  async load(): Promise<void> {
     await this.$store.dispatch("fetchConfiguration");
     await this.$store.dispatch('fetchMovieDetails', { id: this.$route.params.id, append: ['videos', 'images', 'actors'] });
   }
 
-  prepareVideoPlayer() {
+  prepareVideoPlayer(): void {
     this.getMoviePlayerSize();
     window.addEventListener("resize", this.getMoviePlayerSize, true);
   }
 
-  getImageUrl(size: string = 'w185') {
+  getImageUrl(size = 'w185'): void {
     this.imageUrl = this.$store.getters.getImageBaseUrl + size;
   }
 

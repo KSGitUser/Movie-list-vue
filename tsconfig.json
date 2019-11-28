@@ -15,6 +15,11 @@
       "webpack-env",
       "vuetify"
     ],
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ],
     "paths": {
       "@/*": [
         "src/*"

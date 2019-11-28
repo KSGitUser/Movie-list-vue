@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue, { VNode } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -10,5 +10,5 @@ new Vue({
   router,
   store,
   vuetify,
-  render: h => h(App)
+  render: (h: Function): VNode => h(App)
 }).$mount('#app')

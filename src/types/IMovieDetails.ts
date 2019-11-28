@@ -1,6 +1,7 @@
 import { IGenre } from './IGenre';
+import { IBelongsToCollection } from './IBelongsToCollection';
 
-export interface IMovieDetails {
+export default interface IMovieDetails {
   adult: boolean | null;
   backdrop_path: string | null;
   belongs_to_collection: IBelongsToCollection | null;
@@ -28,13 +29,6 @@ export interface IMovieDetails {
   vote_count: number | null;
   videos?: IVideos | null;
   images?: IImages | null;
-}
-
-export interface IBelongsToCollection {
-  id: number;
-  name: string;
-  poster_path: string;
-  backdrop_path: string;
 }
 
 export interface IImages {

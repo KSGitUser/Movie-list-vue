@@ -13,11 +13,9 @@
     Prop,
     Vue
   } from 'vue-property-decorator';
-  import {
-    configApp
-  } from '@/config/configApp';
-  import TopInputsComponent from '@/components/TopInputsComponent.vue';
-  import FilmListComponent from '@/components/FilmListComponent.vue';
+  import configApp from '../config/configApp';
+  import TopInputsComponent from '../components/TopInputsComponent.vue';
+  import FilmListComponent from '../components/FilmListComponent.vue';
 
   @Component({
     components: {

@@ -1,5 +1,6 @@
-import { IMovieDetails, IBelongsToCollection, IVideos, IImages, IProductionCompany, IProductionCountry, ISpokenLanguage } from './IMovieDetails';
+import IMovieDetails, { IVideos, IImages, IProductionCompany, IProductionCountry, ISpokenLanguage } from './IMovieDetails';
 import { IGenre } from './IGenre';
+import { IBelongsToCollection } from './IBelongsToCollection';
 
 export default class MovieDetails implements IMovieDetails {
   adult: boolean | null = null;

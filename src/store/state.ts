@@ -1,7 +1,7 @@
-import { IMovieList } from '@/types/IMovieList';
-import { IMovieDetails } from '@/types/IMovieDetails';
-import { IGenre } from '@/types/IGenre';
-import MovieDetails from '@/types/MovieDetails';
+import { IMovieList } from '../types/IMovieList';
+import IMovieDetails from '../types/IMovieDetails';
+import { IGenre } from '../types/IGenre';
+import MovieDetails from '../types/MovieDetails';
 
 export const state: IState = {
   genres: [],
@@ -16,15 +16,15 @@ export const state: IState = {
 }
 
 export interface IState {
-  genres: IGenre[],
-  configuration: { images: {}, "change_keys": [] },
-  genreId: number | null,
-  movieDetails: IMovieDetails,
-  isFilmListLoading: boolean,
-  filmListPage: number,
-  filmList: IMovieList[],
-  totalFilmListResults: number,
-  totalFilmListPages: number,
+  genres: IGenre[];
+  configuration: { images: any; "change_keys": [] };
+  genreId: number | null;
+  movieDetails: IMovieDetails;
+  isFilmListLoading: boolean;
+  filmListPage: number;
+  filmList: IMovieList[];
+  totalFilmListResults: number;
+  totalFilmListPages: number;
 }
 
 

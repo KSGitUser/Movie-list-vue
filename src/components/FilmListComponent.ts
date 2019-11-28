@@ -1,7 +1,6 @@
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { configApp } from '@/config/configApp';
-import { IMovieList } from '@/types/IMovieList';
+import { Component, Watch } from 'vue-property-decorator';
+import { IMovieList } from '../types/IMovieList';
 
 @Component({
   name: "film-list",
@@ -28,7 +27,7 @@ export default class FilmListComponent extends Vue {
     this.$store.commit('setIsFilmListLoading', value);
   }
 
-  showPagination: boolean = false;
+  showPagination = false;
 
   boilerplate = false;
   tile = false;
@@ -38,34 +37,34 @@ export default class FilmListComponent extends Vue {
     return this.$store.getters.getFilmList;
   };
 
-  get genreId() {
+  get genreId(): number | null {
     return this.$store.getters.getGenreId;
   };
 
   imageUrl = '';
 
-  async created() {
+  async created(): Promise<void> {
     await this.getImageUrl();
     this.getFilmList();
   }
 
-  mounted() {
+  mounted(): void {
     setTimeout(() => this.showPagination = true, 1000);
   }
 
-  async getImageUrl(size: string = 'w185') {
+  async getImageUrl(size = 'w185'): Promise<void> {
     await this.$store.dispatch("fetchConfiguration");
     this.imageUrl = this.$store.getters.getImageBaseUrl + size;
   }
 
   @Watch('genreId')
-  async onGenreIdChange(value: string) {
+  onGenreIdChange(value: string): void {
     this.page = 1;
     this.$store.commit('setGenreId', value);
     this.getFilmList();
   }
 
-  getFilmImageUrl(item: IMovieList) {
+  getFilmImageUrl(item: IMovieList): string {
     if (
       item.hasOwnProperty('poster_path')
       && item.poster_path
@@ -77,18 +76,17 @@ export default class FilmListComponent extends Vue {
   }
 
   @Watch('page')
-  async onPageChange(value: number) {
+  onPageChange(value: number): void {
     this.page = value;
     this.getFilmList();
   }
 
-  async getFilmList() {
+  async getFilmList(): Promise<void> {
     await this.$store.dispatch('fetchFilmList');
     this.cutOverviewText();
-
   }
 
-  cutOverviewText() {
+  cutOverviewText(): void {
     this.filmList.forEach(item => {
       if (item.overview.length > 180) {
         item.overview = item.overview.substring(0, 180) + "..."
@@ -98,11 +96,11 @@ export default class FilmListComponent extends Vue {
 
   get imageSize(): string {
     const innerWidth = window.innerWidth;
-    let imgSize = 185
+    const imgSize = 185
     return imgSize < innerWidth / 3 ? imgSize + 'px' : innerWidth / 3 + 'px';
   }
 
-  getMovieDetails(id: number) {
+  getMovieDetails(id: number): void {
     const payload = { id, append: ['videos', 'images'] }
     this.$store.dispatch('fetchMovieDetails', payload);
     this.$router.push(`/movie/${id}`)

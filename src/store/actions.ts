@@ -1,13 +1,18 @@
-import { configApp } from '@/config/configApp';
+import configApp from '../config/configApp';
+
+const myInit: RequestInit = {
+  method: 'GET',
+  mode: 'cors',
+}
 
 export const actions = {
   async fetchConfiguration(context: any): Promise<void> {
     try {
-      let listUrl = new URL(
+      const listUrl = new URL(
         `https://api.themoviedb.org/3/configuration?api_key=${configApp.apiKey3}`
       );
       const response = await fetch(
-        listUrl.toString(),
+        listUrl.toString(), myInit
       );
       const data = await response.json();
       context.commit('setConfiguration', data);
@@ -18,11 +23,11 @@ export const actions = {
 
   async fetchGenreList(context: any): Promise<void> {
     try {
-      let listUrl = new URL(
+      const listUrl = new URL(
         `https://api.themoviedb.org/3/genre/movie/list?api_key=${configApp.apiKey3}&language=${configApp.language}`
       );
       const response = await fetch(
-        listUrl.toString(),
+        listUrl.toString(), myInit
       );
       const data = await response.json();
       context.commit('setGenreList', data.genres);
@@ -38,11 +43,11 @@ export const actions = {
     payload: string = context.state.genreId): Promise<void> {
     try {
       context.commit('setIsFilmListLoading', true);
-      let listUrl = new URL(
+      const listUrl = new URL(
         `https://api.themoviedb.org/3/discover/movie?api_key=${configApp.apiKey3}&language=${configApp.language}&page=${context.state.filmListPage}&with_genres=${payload}`
       );
       const response = await fetch(
-        listUrl.toString(),
+        listUrl.toString(), myInit
       );
       const data = await response.json();
       context.commit('setFilmList', data.results);
@@ -66,11 +71,11 @@ export const actions = {
         if (payload.append.length > 0) {
           append = '&append_to_response=' + payload.append.join(',');
         }
-        let listUrl = new URL(
+        const listUrl = new URL(
           `https://api.themoviedb.org/3/movie/${payload.id}?api_key=${configApp.apiKey3}&language=${configApp.language}${append}`
         );
         const response = await fetch(
-          listUrl.toString(),
+          listUrl.toString(), myInit
         );
         const data = await response.json();
         context.commit('setMovieDetails', data)
